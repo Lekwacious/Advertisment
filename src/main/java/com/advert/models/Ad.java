@@ -1,23 +1,39 @@
 package com.advert.models;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.math.BigDecimal;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
+import javax.validation.constraints.NotNull;
+
+
 
 @Entity
+@Getter
+@EqualsAndHashCode
 public class Ad {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public int id;
 
+    @NotNull(message = "Who is the owner of this ad?")
     public String owner;
 
+    @NotNull(message = "Please, add a title for your ad")
+    @Size(min =5, max = 140, message = "Titles must have between {min} and {max} characters.")
     public String title;
 
+    @NotNull(message = "Please, add a description for your ad.")
+    @Size(min = 5, max = 500, message = "Description must have between {min} and {max} characters.")
     public String description;
 
+
+    @Min(message = "Price cannot be negative", value = 0)
     public BigDecimal price;
 
     public Ad(){
